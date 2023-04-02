@@ -1,17 +1,24 @@
 var ros = new ROSLIB.Ros({
-  url: 'ws://0.0.0.0:9090'
+  url: 'ws://192.168.1.12:9090'
 });
+function connect() {
+  ros.connect('ws://192.168.1.12:9090');
+}
 ros.on('connection', function(){
 console.log('Connected to websocket server');
 });
 
 ros.on('error', function(error){
 console.log('error connecting to websocket server');
+setTimeout(connect, 1000);
 });
 
 ros.on('close', function(){
 console.log('Connection to websocket server closed');
+setTimeout(connect, 1000);
 });
+
+connect();
 // Publish a topic
 var cmdVel = new ROSLIB.Topic({
   ros : ros,
